@@ -124,6 +124,9 @@ export function Render()
 		{
 			device.send_report([0x00, 0x61, ...oledData[0], 0x00], 642);
 			oledSent = true;
+		} else
+		{
+			sendColors();
 		}
 	} else {
 		sendColors();
