@@ -119,6 +119,9 @@ export function Render()
 				{
 					currentFrame = 0;
 				}
+			} else
+			{
+				sendColors();
 			}
 		} else if (!oledSent)
 		{
