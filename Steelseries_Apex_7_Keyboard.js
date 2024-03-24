@@ -110,6 +110,13 @@ export function Render()
 
 		if (oledIsAnimation)
 		{
+			if (lastRender === 0)
+			{
+				sendColors();
+				lastRender = now;
+				return;
+			}
+
 			if (now - lastRender >= 100)
 			{
 				lastRender = now;
