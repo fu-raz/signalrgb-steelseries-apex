@@ -56,6 +56,14 @@ const vKeymap = [
 	224, 227, 226, 44, 230, 231, 240, 228,                     80, 81, 79,           98, 99          //13
 ];
 
+let oledData = null;
+let oledIsAnimation = false;
+let oledSent = false;
+let currentFrame = 0;
+let maxFrames = 0;
+let lastRender = 0;
+let lastOledImageSetting = null;
+
 export function Initialize() {
 
 }
