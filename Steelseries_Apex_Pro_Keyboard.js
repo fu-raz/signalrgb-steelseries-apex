@@ -21,7 +21,6 @@ export function ControllableParameters(){
 		{"property":"LightingMode", "group":"lighting", "label":"Lighting Mode", "type":"combobox", "values":["Canvas", "Forced"], "default":"Canvas"},
 		{"property":"forcedColor", "group":"lighting", "label":"Forced Color", "min":"0", "max":"360", "type":"color", "default":"#009bde"},
 		{"property":"OLEDToggle", "group":"", "label":"OLED on", "type":"boolean", "default":"false"},
-		{"property":"OLEDImage", "group":"", "label":"OLED Image", "type":"combobox", "values":["SignalRGB", "Kirby"], "default":"SignalRGB"},
 	];
 }
 
@@ -65,7 +64,13 @@ let lastRender = 0;
 let lastOledImageSetting = null;
 
 export function Initialize() {
+	setupImages();
+}
 
+function setupImages()
+{
+	let values = Object.keys(OLEDLogos);
+	device.addProperty({"property":"OLEDImage", "group":"", "label":"OLED Image", "type":"combobox", "values":values, "default":"Default"})
 }
 
 export function LedNames() {
@@ -74,28 +79,6 @@ export function LedNames() {
 
 export function LedPositions() {
 	return vLedPositions;
-}
-
-function sendPacketString(string, size){
-	const packet= [];
-	const data = string.split(' ');
-
-	for(let i = 0; i < data.length; i++){
-		packet[parseInt(i, 16)] = parseInt(data[i], 16);//.toString(16)
-	}
-
-	device.write(packet, size);
-}
-
-function sendReportString(string, size){
-	const packet= [];
-	const data = string.split(' ');
-
-	for(let i = 0; i < data.length; i++){
-		packet[parseInt(i, 16)] =parseInt(data[i], 16);//.toString(16)
-	}
-
-	device.send_report(packet, size);
 }
 
 export function Shutdown() {

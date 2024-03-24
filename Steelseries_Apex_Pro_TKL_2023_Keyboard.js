@@ -21,7 +21,6 @@ export function ControllableParameters(){
 		{"property":"LightingMode", "group":"lighting", "label":"Lighting Mode", "type":"combobox", "values":["Canvas", "Forced"], "default":"Canvas"},
 		{"property":"forcedColor", "group":"lighting", "label":"Forced Color", "min":"0", "max":"360", "type":"color", "default":"#009bde"},
 		{"property":"OLEDToggle", "group":"", "label":"OLED on", "type":"boolean", "default":"false"},
-		{"property":"OLEDImage", "group":"", "label":"OLED Image", "type":"combobox", "values":["SignalRGB", "Kirby"], "default":"SignalRGB"},
 	];
 }
 
@@ -63,6 +62,17 @@ let maxFrames = 0;
 let lastRender = 0;
 let lastOledImageSetting = null;
 
+export function Initialize() {
+	device.send_report([0x00, 0x4b], 642);
+	setupImages();
+}
+
+function setupImages()
+{
+	let values = Object.keys(OLEDLogos);
+	device.addProperty({"property":"OLEDImage", "group":"", "label":"OLED Image", "type":"combobox", "values":values, "default":"Default"})
+}
+
 export function LedNames() {
 	return vLedNames;
 }
@@ -71,8 +81,8 @@ export function LedPositions() {
 	return vLedPositions;
 }
 
-export function Initialize() {
-	device.send_report([0x00, 0x4b], 642);
+export function Shutdown() {
+	sendColors(true);
 }
 
 function checkOLEDImage()
@@ -130,10 +140,6 @@ export function Render()
 	} else {
 		sendColors();
 	}
-}
-
-export function Shutdown() {
-	sendColors(true);
 }
 
 function sendColors(shutdown = false){
